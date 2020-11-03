@@ -47,14 +47,10 @@ describe("main test", () => {
 
   it("can get unique sessions count by day", async () => {
     const { body: sessionsByDays } = await request(app).get("/events/by-days/0").expect(200)
-
     expect(sessionsByDays.length).toBe(7)
-    expect(sessionsByDays.reduce((sum: number, day: {date: string; count: number}) => sum += day.count, 0)).toBe(145
-      )
+    expect(sessionsByDays.reduce((sum: number, day: {date: string; count: number}) => sum += day.count, 0)).toBe(145)
     expect(sessionsByDays[0].count).toBe(19);
-
     const { body: sessionsByDays2 } = await request(app).get("/events/by-days/7").expect(200)
-
     expect(sessionsByDays2.length).toBe(7)
     expect(sessionsByDays2.reduce((sum: number, day: {date: string; count: number}) => sum += day.count, 0)).toBe(78)
     expect(sessionsByDays2[0].count).toBe(11);
@@ -64,7 +60,8 @@ describe("main test", () => {
 
   it("can get unique sessions count by hour", async () => {
     const { body: sessionsByHours } = await request(app).get("/events/by-hours/0").expect(200)
-
+    console.log(sessionsByHours);
+    
     expect(sessionsByHours.length).toBe(24)
     expect(sessionsByHours.reduce((sum: number, day: {date: string; count: number}) => sum += day.count, 0)).toBe(7)
 
@@ -77,20 +74,23 @@ describe("main test", () => {
   it("retention cohort", async () => {
     const today = new Date (new Date().toDateString()).getTime()+6*OneHour
     const dayZero = today-5*OneWeek
+    console.log(dayZero);
 
     const { body: retentionData } = await request(app).get(
       `/events/retention?dayZero=${dayZero}`
     ).expect(200);
-    
-    console.log(retentionData)
+  
 
     expect(retentionData.length).toBe(6);
-    
-    expect(retentionData[0].weeklyRetention).toEqual([ 100, 40, 60, 90, 80, 0 ]);
+
+    expect(retentionData[0].newUsers).toBe(10);
+    expect(retentionData[0].weeklyRetention).toEqual([ 100, 30, 60, 90, 80, 0 ]);
+    expect(retentionData[1].newUsers).toBe(10);
     expect(retentionData[1].weeklyRetention).toEqual([ 100, 90, 60,100,0 ]);
+    expect(retentionData[2].newUsers).toBe(11);
     expect(retentionData[2].weeklyRetention).toEqual([ 100, 100, 82, 9 ]);
     expect(retentionData[4].newUsers).toBe(9);
-
+    expect(retentionData[4].weeklyRetention).toEqual([ 100, 44 ]);
 
   });
   it("can filter events by browser", async () => {
