@@ -132,16 +132,13 @@ router.get('/by-days/:offset', (req: Request, res: Response) => {
   const events: event[]= getAllEvents();
   // let eventsUniqBySessionID: event[]= getEventsUniqBySessionID(events);
   const { arrayOfDates, firstDay, firstDayUnix}=createArrayWeekAgo(parseInt(req.params.offset));
-  console.log(firstDayUnix);
   const lastDateInString=arrayOfDates[arrayOfDates.length-1].date;
   const dd=+lastDateInString.split('/')[0]
   const mm=+lastDateInString.split('/')[1]
   const yyyy=+lastDateInString.split('/')[2]
   const endDate = new Date(yyyy,mm-1,dd+1).getTime() -1
-  console.log(endDate);
   let eventsUniqBySessionID=events.filter((event)=>event.date<=endDate && event.date >=firstDayUnix)
   const array=eventsUniqBySessionID.map((event)=>{ return {date:dataOrUnixToString(new Date(event.date))}})
-  console.log("length",eventsUniqBySessionID.length);
   for (const eventToCheck of eventsUniqBySessionID) {
     const indexChecker = arrayOfDates.findIndex(
       (day) => day.date === dataOrUnixToString(new Date(eventToCheck.date))
@@ -160,11 +157,8 @@ router.get('/by-hours/:offset', (req: Request, res: Response) => {
   const offset=parseInt(req.params.offset);
   const currentDate=new Date();
   const choosenDay=new Date(currentDate.setDate(currentDate.getDate()-offset));
-  console.log(choosenDay);
   const startOfChoosenDay=(new Date(choosenDay.getFullYear(),choosenDay.getMonth(),choosenDay.getDate())).getTime();
   const endOfChoosenDay=(new Date(choosenDay.getFullYear(),choosenDay.getMonth(),choosenDay.getDate()+1)).getTime();
-  console.log(startOfChoosenDay);
-  console.log(endOfChoosenDay);
   const eventFilteredByDate: event[]=events.filter((event)=>event.date<endOfChoosenDay && event.date >=startOfChoosenDay)
   // const eventsGroupBySession: event[]= getEventsUniqBySessionID(eventFilteredByDate);
   eventFilteredByDate.forEach(event => {
