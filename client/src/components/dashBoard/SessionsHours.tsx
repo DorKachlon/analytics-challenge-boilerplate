@@ -16,10 +16,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/picker
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { diffrenceInDays } from "./HelpersFunction";
-interface dataDay {
-  date: string;
-  count: number;
-}
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: "100%",
@@ -33,9 +30,9 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const SessionsDay: React.FC = () => {
-  const [dataByDay, setDataByDay] = useState<dataDay[] | undefined>();
-  const [offset, setOffset] = useState(0);
+const SessionsHours: React.FC = () => {
+  const [dataByHours, setDataByHours] = useState([]);
+  const [offset, setOffset] = useState(5);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -51,14 +48,13 @@ const SessionsDay: React.FC = () => {
 
     setOpen(false);
   };
+
   useEffect(() => {
-    (async (): Promise<void> => {
+    (async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3001/events/by-days/${offset}`);
-        setDataByDay(data);
-      } catch (error) {
-        console.error(error);
-      }
+        const { data } = await axios.get(`http://localhost:3001/events/by-hours/${offset}`);
+        setDataByHours(data);
+      } catch (error) {}
     })();
   }, [offset]);
 
@@ -75,7 +71,6 @@ const SessionsDay: React.FC = () => {
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
-
   return (
     // <div style={{ width: "100vw", height: "80vh" }}>
     <div style={{ width: "100%", height: "450px" }}>
@@ -96,12 +91,17 @@ const SessionsDay: React.FC = () => {
         />
       </MuiPickersUtilsProvider>
       <ResponsiveContainer width="100%" height="80%">
-        <LineChart data={dataByDay} margin={{ top: 20, right: 80, left: 40, bottom: 0 }}>
-          <Line type="monotone" dataKey="count" stroke="#3F51B5" />
+        <LineChart data={dataByHours} margin={{ top: 20, right: 80, left: 40, bottom: 0 }}>
+          <Line
+            name={selectedDate ? selectedDate.toDateString()! : ""}
+            type="monotone"
+            dataKey="count"
+            stroke="red"
+          />
           <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="date" />
+          <XAxis dataKey="hour" />
           <YAxis />
-          {/* <Legend verticalAlign="top" height={36} /> */}
+          <Legend verticalAlign="top" height={36} />
           <Tooltip />
         </LineChart>
       </ResponsiveContainer>
@@ -116,4 +116,4 @@ const SessionsDay: React.FC = () => {
   );
 };
 
-export default SessionsDay;
+export default SessionsHours;

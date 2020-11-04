@@ -28,12 +28,13 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
+    margin:"0px 0px 40px 0px",
+    overflow: "hidden",
   },
   container: {
     minHeight: "77vh",
     paddingTop: theme.spacing(1),
+    overflow:"hidden",
     paddingBottom: theme.spacing(1),
     [theme.breakpoints.up("sm")]: {
       paddingTop: theme.spacing(4),
@@ -90,7 +91,10 @@ const MainLayout: React.FC<Props> = ({ children, notificationsService, authServi
       />
       <main className={classes.content} data-test="main">
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="md" className={classes.container}>
+        <Container 
+        // maxWidth="md" 
+        maxWidth={false} 
+        className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
       {children}
