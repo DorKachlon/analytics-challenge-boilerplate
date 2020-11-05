@@ -16,7 +16,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/picker
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { diffrenceInDays } from "./HelpersFunction";
-
+import { TitleAndDate, Title } from "./styledComponent";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: "100%",
@@ -74,22 +74,24 @@ const SessionsHours: React.FC = () => {
   return (
     // <div style={{ width: "100vw", height: "80vh" }}>
     <div style={{ width: "100%", height: "450px" }}>
-      <h2>Sessions By Days</h2>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
-        />
-      </MuiPickersUtilsProvider>
+      <TitleAndDate>
+        <Title>Sessions By Hours</Title>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Date picker inline"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+          />
+        </MuiPickersUtilsProvider>
+      </TitleAndDate>
       <ResponsiveContainer width="100%" height="80%">
         <LineChart data={dataByHours} margin={{ top: 20, right: 80, left: 40, bottom: 0 }}>
           <Line

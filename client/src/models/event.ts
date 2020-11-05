@@ -33,11 +33,11 @@ export interface RetentionCohort {
 }
 
 export interface Filter {
-  sorting: string;
-  type: string;
-  browser: string;
-  search: string;
-  offset: number;
+  sorting?: string ;
+  type?: string;
+  browser?: string;
+  search?: string;
+  offset?: number;
 }
 
 export interface weeklyRetentionObject {

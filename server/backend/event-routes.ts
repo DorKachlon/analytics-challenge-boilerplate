@@ -55,11 +55,11 @@ export interface event {
 }
 
 interface Filter {
-  sorting: string;
-  type: string;
-  browser: string;
-  search: string;
-  offset: number;
+  sorting?: string;
+  type?: string;
+  browser?: string;
+  search?: string;
+  offset?: number;
 }
 
 interface weeklyRetentionObject {

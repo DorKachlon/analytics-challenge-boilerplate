@@ -4,17 +4,12 @@ import { GoogleMap, LoadScript, Marker, MarkerClusterer } from "@react-google-ma
 import axios from "axios";
 import { Event } from "../../models/event";
 import API_KEY from "./googleMapKey";
+import { Title } from "./styledComponent";
+
 const mapContainerStyle = {
   width: "100%",
-  height: "100%",
+  height: "400px",
 };
-
-// const ClustererOptions = {
-//   imagePath:
-//       'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
-//   }
-
-const defaultCenter = { lat: 31.45, lng: 35 };
 
 const Map: React.FC = () => {
   const [allEvents, setAllEvents] = useState<Event[]>();
@@ -33,16 +28,15 @@ const Map: React.FC = () => {
   };
 
   return (
-    <div style={{ width: "100%", height: "450px" }}>
-      <h2>Geolocation Map</h2>
-
+    <>
+      <Title>Geolocation Map</Title>
       <LoadScript googleMapsApiKey={API_KEY}>
         <GoogleMap
           options={{
             disableDefaultUI: true,
           }}
           mapContainerStyle={mapContainerStyle}
-          center={defaultCenter}
+          center={{ lat: 31.45, lng: 35 }}
           zoom={1.5}
         >
           <MarkerClusterer averageCenter enableRetinaIcons gridSize={80}>
@@ -65,7 +59,7 @@ const Map: React.FC = () => {
           </MarkerClusterer>
         </GoogleMap>
       </LoadScript>
-    </div>
+    </>
   );
 };
 
