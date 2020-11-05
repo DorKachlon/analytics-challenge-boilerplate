@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import {
   ResponsiveContainer,
   LineChart,
@@ -7,7 +7,6 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Legend,
   Tooltip,
 } from "recharts";
 import DateFnsUtils from "@date-io/date-fns";

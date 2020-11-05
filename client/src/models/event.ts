@@ -33,7 +33,7 @@ export interface RetentionCohort {
 }
 
 export interface Filter {
-  sorting?: string ;
+  sorting?: string;
   type?: string;
   browser?: string;
   search?: string;
