@@ -19,10 +19,8 @@ const ViewSelector: React.FC<props> = ({ view, setView }) => {
   };
   return (
     <MyFormControlForView variant="outlined">
-      <InputLabel id="demo-simple-select-outlined-label">View</InputLabel>
+      <InputLabel>View</InputLabel>
       <Select
-        labelId="demo-simple-select-outlined-label"
-        id="demo-simple-select-outlined"
         value={view}
         onChange={handleChange}
         label="View"

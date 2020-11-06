@@ -20,8 +20,8 @@ const DashBoard: React.FC = () => {
   return (
     <>
       <PageTitle>this admin area</PageTitle>
-      <Display className={view}>
         <ViewSelector view={view} setView={setView} />
+      <Display className={view}>
         <PaperContainer>
           <Map />
         </PaperContainer>
