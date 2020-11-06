@@ -12,11 +12,11 @@ import {
 } from "recharts";
 import DateFnsUtils from "@date-io/date-fns";
 import Snackbar from "@material-ui/core/Snackbar";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { diffrenceInDays } from "./HelpersFunction";
-import { TitleAndDate, Title } from "./styledComponent";
+import { TitleAndDate, Title, MyKeyboardDatePicker } from "./styledComponent";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: "100%",
@@ -77,7 +77,7 @@ const SessionsHours: React.FC = () => {
       <TitleAndDate>
         <Title>Sessions By Hours</Title>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
+          <MyKeyboardDatePicker
             disableToolbar
             variant="inline"
             format="MM/dd/yyyy"

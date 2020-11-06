@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     button: {
       display: "flex",
       alignItems: "center",
+      justifyContent: "center",
     },
     wrapper: {
       margin: theme.spacing(1),
@@ -88,9 +89,20 @@ const AllEvents: React.FC = () => {
         const { data } = await axios.get(`http://localhost:3001/events/all-filtered`, {
           params,
         });
-        setEvents(data);
-        loading && setLoading(false);
-        linearLoading && setLinearLoading(false);
+
+        if (loading) {
+          setTimeout(() => {
+            setEvents(data);
+            setLoading(false);
+          }, 1000);
+        } else if (linearLoading) {
+          setTimeout(() => {
+            setEvents(data);
+            setLinearLoading(false);
+          }, 1000);
+        } else {
+          setEvents(data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -130,14 +142,28 @@ const AllEvents: React.FC = () => {
     <>
       <Title>All Events</Title>
       <MyTextArea
-        id="outlined-basic"
         label="Search"
-        variant="outlined"
+        // variant="outlined"
         onChange={handleChange("search")}
       />
       <MyFormControl>
         <InputLabel>Sort</InputLabel>
-        <Select value={sort} onChange={handleChange("sort")} displayEmpty>
+        <Select
+          value={sort}
+          onChange={handleChange("sort")}
+          displayEmpty
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
+        >
           <MenuItem value="none">
             <em>None</em>
           </MenuItem>
@@ -147,7 +173,22 @@ const AllEvents: React.FC = () => {
       </MyFormControl>
       <MyFormControl>
         <InputLabel>Type</InputLabel>
-        <Select value={type} onChange={handleChange("type")} displayEmpty>
+        <Select
+          value={type}
+          onChange={handleChange("type")}
+          displayEmpty
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
+        >
           <MenuItem value="all">
             <em>All</em>
           </MenuItem>
@@ -159,7 +200,22 @@ const AllEvents: React.FC = () => {
       </MyFormControl>
       <MyFormControl>
         <InputLabel>Browser</InputLabel>
-        <Select value={browser} onChange={handleChange("browser")} displayEmpty>
+        <Select
+          value={browser}
+          onChange={handleChange("browser")}
+          displayEmpty
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
+        >
           <MenuItem value="all">
             <em>All</em>
           </MenuItem>
