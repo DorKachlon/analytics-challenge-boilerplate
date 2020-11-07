@@ -21,6 +21,7 @@ export const MyFormControlForView = styled(FormControl)`
     display: flex;
     align-items: center;
   }
+  margin-bottom:20px;
 `;
 export const MyTextArea = styled(TextField)`
   width: 200px;
@@ -42,8 +43,6 @@ export const Title = styled.div`
   font-weight: bold;
   box-sizing: border-box;
 `;
-
-
 
 export const MyTableHead = styled(TableHead)`
   background-color: rgb(214, 214, 214);
@@ -89,12 +88,24 @@ export const PaperContainer = styled.div`
 export const Display = styled.div`
   &.gallery {
     display: flex;
-    flex-wrap:wrap;
-    &>div{
-      width: 10%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    & > div {
+      min-width: 600px;
+      width: 45%;
+    }
+    & > div:nth-last-child(1) {
+      width: 100%;
     }
     /* flex-direction: column; */
   }
+
   &.list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    & > div {
+      width: 100%;
+    }
   }
 `;

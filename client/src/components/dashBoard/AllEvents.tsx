@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: -12,
     },
     linearLoading: {
+      margin: "30px 0px",
       width: "100%",
       "& > * + *": {
         marginTop: theme.spacing(2),
@@ -75,6 +76,7 @@ const AllEvents: React.FC = () => {
   const [sort, setSort] = useState("none");
   const [type, setType] = useState("all");
   const [browser, setBrowser] = useState("all");
+  console.log(allEvents);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -244,15 +246,23 @@ const AllEvents: React.FC = () => {
                     id="panel1a-header"
                   >
                     <Typography className={classes.heading}>
+                      <b>User :</b>
                       {event.distinct_user_id}
                       {"     "}
-                      {event.name}
+                      <b>Event :</b> {event.name}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-                      lacus ex, sit amet blandit leo lobortis eget.
+                      <b>Browser :</b> {event.browser}
+                      <br />
+                      <b>Os :</b> {event.os}
+                      <br />
+                      <b>URL :</b> {event.url}
+                      <br />
+                      <b>Date :</b> {new Date(event.date).toDateString()}{"  ,  "}
+                      {new Date(event.date).toTimeString().slice(0, 8)}
+                      <br />
                     </Typography>
                   </AccordionDetails>
                 </Accordion>

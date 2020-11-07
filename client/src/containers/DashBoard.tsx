@@ -8,7 +8,11 @@ import SessionsDay from "../components/dashBoard/SessionsDay";
 import SessionsHours from "../components/dashBoard/SessionsHours";
 import ViewSelector from "../components/dashBoard/ViewSelector";
 
-import { PaperContainer, PageTitle, Display } from "../components/dashBoard/styledComponent";
+import {
+  PaperContainer,
+  PageTitle,
+  Display,
+} from "../components/dashBoard/styledComponent";
 
 export interface Props {
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
@@ -19,7 +23,7 @@ const DashBoard: React.FC = () => {
 
   return (
     <>
-      <PageTitle>this admin area</PageTitle>
+        <PageTitle>this is admin area</PageTitle>
         <ViewSelector view={view} setView={setView} />
       <Display className={view}>
         <PaperContainer>
