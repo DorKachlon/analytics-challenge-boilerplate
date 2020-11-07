@@ -7,12 +7,9 @@ import Map from "../components/dashBoard/Map";
 import SessionsDay from "../components/dashBoard/SessionsDay";
 import SessionsHours from "../components/dashBoard/SessionsHours";
 import ViewSelector from "../components/dashBoard/ViewSelector";
+import ErrorBoundary from "../components/dashBoard/ErrorBoundary";
 
-import {
-  PaperContainer,
-  PageTitle,
-  Display,
-} from "../components/dashBoard/styledComponent";
+import { PaperContainer, PageTitle, Display } from "../components/dashBoard/styledComponent";
 
 export interface Props {
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
@@ -23,23 +20,33 @@ const DashBoard: React.FC = () => {
 
   return (
     <>
-        <PageTitle>this is admin area</PageTitle>
-        <ViewSelector view={view} setView={setView} />
+      <PageTitle>this is admin area</PageTitle>
+      <ViewSelector view={view} setView={setView} />
       <Display className={view}>
         <PaperContainer>
-          <Map />
+          <ErrorBoundary>
+            <Map />
+          </ErrorBoundary>
         </PaperContainer>
         <PaperContainer>
-          <SessionsDay />
+          <ErrorBoundary>
+            <SessionsDay />
+          </ErrorBoundary>
         </PaperContainer>
         <PaperContainer>
-          <SessionsHours />
+          <ErrorBoundary>
+            <SessionsHours />
+          </ErrorBoundary>
         </PaperContainer>
         <PaperContainer>
-          <Cohort />
+          <ErrorBoundary>
+            <Cohort />
+          </ErrorBoundary>
         </PaperContainer>
         <PaperContainer>
-          <AllEvents />
+          <ErrorBoundary>
+            <AllEvents />
+          </ErrorBoundary>
         </PaperContainer>
       </Display>
     </>
