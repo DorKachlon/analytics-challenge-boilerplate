@@ -1,22 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import { getUserById } from "./database";
-import { event } from "./event-routes";
-
-interface weeklyRetentionObject {
-  registrationWeek: number; //launch is week 0 and so on
-  newUsers: number; // how many new user have joined this week
-  weeklyRetention: number[]; // for every week since, what percentage of the users came back. weeklyRetention[0] is always 100% because it's the week of registration
-  start: string; //date string for the first day of the week
-  end: string; //date string for the first day of the week
-}
-let week0Retention: weeklyRetentionObject = {
-  registrationWeek: 1,
-  newUsers: 34,
-  weeklyRetention: [100, 24, 45, 66, 1, 80], // here we see there were 7 in total since week 1 has data for 6 weeks
-  start: "01/11/2020",
-  end: "07/11/2020",
-};
+import { Event, weeklyRetentionObject, HourCount } from "../../client/src/models/event";
 
 export const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   //@ts-ignore
@@ -56,25 +41,9 @@ export function AdminValidation(req: Request, res: Response, next: NextFunction)
   }
 }
 
-export function groupBy(collection: any[], property: string) {
-  let i = 0;
-  let values = [];
-  let result = [];
-  let val;
-  let index;
-  for (; i < collection.length; i++) {
-    val = collection[i][property];
-    index = values.indexOf(val);
-    if (index > -1) result[index].push(collection[i]);
-    else {
-      values.push(val);
-      result.push([collection[i]]);
-    }
-  }
-  return result;
-}
+//----------My Functions----------
 
-export function dataOrUnixToString(date: Date | number) {
+export function dataOrUnixToString(date: Date | number): string {
   if (typeof date === "number") {
     const dateTypeDate = new Date(date);
     let dd = String(dateTypeDate.getDate()).padStart(2, "0");
@@ -102,9 +71,10 @@ export function createArrayWeekAgo(offset: number) {
   const day: number = new Date(firstDay).getDate();
   const month: number = new Date(firstDay).getMonth() + 1;
   const year: number = new Date(firstDay).getFullYear();
-  const firstDayUnix = new Date(`${year}/${month}/${day}`).valueOf();
+  const firstDayUnix: number = new Date(`${year}/${month}/${day}`).valueOf();
   return { arrayOfDates: array, firstDay: firstDay, firstDayUnix: firstDayUnix };
 }
+
 export function diffrenceInDays(date1: Date, date2: Date): number {
   const date3 = new Date(date1.toISOString().substring(0, 10));
   const date4 = new Date(date2.toISOString().substring(0, 10));
@@ -113,7 +83,7 @@ export function diffrenceInDays(date1: Date, date2: Date): number {
   return diffDays;
 }
 
-export function createArrayByHours() {
+export function createArrayByHours(): HourCount[] {
   let array = [];
   for (let i = 0; i < 24; i++) {
     if (i < 10) {
@@ -131,9 +101,9 @@ export const toStartOfTheDay = (date: number): number => {
   return new Date(new Date(date).toDateString()).valueOf();
 };
 
-export const convertDaysToMilisecinds = (days: number) => days * 24 * 60 * 60 * 1000;
+export const convertDaysToMilisecinds = (days: number): number => days * 24 * 60 * 60 * 1000;
 
-export const getSingedUsers = (startingDateInNumber: number, events: event[]): string[] => {
+export const getSingedUsers = (startingDateInNumber: number, events: Event[]): string[] => {
   return events
     .filter(
       (event) =>
@@ -141,14 +111,14 @@ export const getSingedUsers = (startingDateInNumber: number, events: event[]): s
         event.date > startingDateInNumber &&
         event.name === "signup"
     )
-    .map((user: event): string => user.distinct_user_id);
+    .map((user: Event): string => user.distinct_user_id);
 };
 
 export const getOneWeekRetentions = (
   startDate: number,
   users: string[],
   weekNumber: number,
-  events: event[]
+  events: Event[]
 ): weeklyRetentionObject => {
   let weeklyRetentionObject: Omit<weeklyRetentionObject, "weeklyRetention"> = {
     registrationWeek: weekNumber,
@@ -170,7 +140,7 @@ export const getOneWeekRetentions = (
           event.date >= currentDateCheck &&
           event.name === "login"
       )
-      .map((user: event): string => user.distinct_user_id);
+      .map((user: Event): string => user.distinct_user_id);
     const setUsersArr: string[] = Array.from(new Set(usersEvents));
     for (let user of setUsersArr) {
       if (users.findIndex((userToCheck) => userToCheck === user) !== -1) {

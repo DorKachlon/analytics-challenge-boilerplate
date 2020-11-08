@@ -47,3 +47,7 @@ export interface weeklyRetentionObject {
   start: string;
   end: string;
 }
+export interface HourCount {
+  hour: string;
+  count: number;
+}
